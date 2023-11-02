@@ -81,8 +81,8 @@ type Lexer struct {
 	dfa        *dfapkg.DFA
 }
 
-func (lexer *Lexer) Print_DFA() {
-	fmt.Println(lexer.dfa.String())
+func (lexer *Lexer) Get_DFA() string {
+	return lexer.dfa.String()
 }
 
 // Scanner tokenizes a byte string based on the patterns provided to the lexer
