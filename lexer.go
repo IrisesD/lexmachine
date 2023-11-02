@@ -3,9 +3,7 @@ package lexmachine
 import (
 	"bytes"
 	"fmt"
-)
 
-import (
 	dfapkg "github.com/timtadh/lexmachine/dfa"
 	"github.com/timtadh/lexmachine/frontend"
 	"github.com/timtadh/lexmachine/inst"
@@ -18,12 +16,11 @@ import (
 // Here is an example for constructing a lexer Action which turns a
 // machines.Match struct into a token using the scanners Token helper function.
 //
-//     func token(name string, tokenIds map[string]int) lex.Action {
-//         return func(s *lex.Scanner, m *machines.Match) (interface{}, error) {
-//             return s.Token(tokenIds[name], string(m.Bytes), m), nil
-//         }
-//     }
-//
+//	func token(name string, tokenIds map[string]int) lex.Action {
+//	    return func(s *lex.Scanner, m *machines.Match) (interface{}, error) {
+//	        return s.Token(tokenIds[name], string(m.Bytes), m), nil
+//	    }
+//	}
 type Token struct {
 	Type        int
 	Value       interface{}
@@ -84,27 +81,30 @@ type Lexer struct {
 	dfa        *dfapkg.DFA
 }
 
+func (lexer *Lexer) Print_DFA() {
+	fmt.Println(lexer.dfa.String())
+}
+
 // Scanner tokenizes a byte string based on the patterns provided to the lexer
 // object which constructed the scanner. This object works as functional
 // iterator using the Next method.
 //
 // Example
 //
-//     lexer, err := CreateLexer()
-//     if err != nil {
-//         return err
-//     }
-//     scanner, err := lexer.Scanner(someBytes)
-//     if err != nil {
-//         return err
-//     }
-//     for tok, err, eos := scanner.Next(); !eos; tok, err, eos = scanner.Next() {
-//         if err != nil {
-//             return err
-//         }
-//         fmt.Println(tok)
-//     }
-//
+//	lexer, err := CreateLexer()
+//	if err != nil {
+//	    return err
+//	}
+//	scanner, err := lexer.Scanner(someBytes)
+//	if err != nil {
+//	    return err
+//	}
+//	for tok, err, eos := scanner.Next(); !eos; tok, err, eos = scanner.Next() {
+//	    if err != nil {
+//	        return err
+//	    }
+//	    fmt.Println(tok)
+//	}
 type Scanner struct {
 	lexer   *Lexer
 	matches map[int]int
@@ -125,14 +125,14 @@ type Scanner struct {
 //
 // Example
 //
-//     for tok, err, eos := scanner.Next(); !eos; tok, err, eos = scanner.Next() {
-//         if err != nil {
-//             // handle the error and exit the loop. For example:
-//             return err
-//         }
-//         // do some processing on tok or store it somewhere. eg.
-//         fmt.Println(tok)
-//     }
+//	for tok, err, eos := scanner.Next(); !eos; tok, err, eos = scanner.Next() {
+//	    if err != nil {
+//	        // handle the error and exit the loop. For example:
+//	        return err
+//	    }
+//	    // do some processing on tok or store it somewhere. eg.
+//	    fmt.Println(tok)
+//	}
 //
 // One useful error type which could be returned by Next() is a
 // match.UnconsumedInput which provides the position information for where in
